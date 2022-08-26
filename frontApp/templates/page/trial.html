@@ -1,0 +1,141 @@
+{% extends "layouts/main.html" %}
+{% load static %}
+
+{% block head %}
+<title>Trial</title>
+{% endblock %}
+
+{% block link %}
+{% endblock %}
+
+{% block body_content %}
+    <h1>Trial Page ( User Management )</h1>
+    <div class="btn-group mb-5">
+        <button onclick="getList(true)" type="button" class="btn btn-outline-warning">Refresh List Data</button>
+        <button onclick="addData()" type="button" class="btn btn-outline-warning">Add Data</button>
+    </div>
+    <div class="card card-primary card-tabs">
+        <div class="card-header p-0 pt-1">
+            <ul class="nav nav-tabs" id="custom-tabs-user-tab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="list-user-contain" data-toggle="pill" href="#list-user-contain-target" role="tab" aria-controls="list-user-contain-target" aria-selected="true">
+                        LIST
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="form-user-contain" data-toggle="pill" href="#form-user-contain-target" role="tab" aria-controls="form-user-contain-target" aria-selected="false">
+                        FORM
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <div class="tab-content" id="custom-tabs-user-tabContent">
+                <div class="tab-pane fade show active" id="list-user-contain-target" role="tabpanel" aria-labelledby="list-user-contain">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row row-cols-4">
+                                {% for row in config.table_list_view %}
+                                {% if row.seacrh != None %}
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="fillter_{{ row.field }}">Filter {{ row.label }}</label>
+                                        <input onchange="getList(true)" type="{{ row.seacrh }}" class="form-control" id="fillter_{{ row.field }}" name="fillter_{{ row.field }}">
+                                    </div>
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                            <div class="row">
+                                <div id="order_by" class="col">
+                                    <label for="order_by">Order By</label>
+                                    <select onchange="getList(true)" class="form-control" name="order_by" id="order_by">
+                                        {% for row in config.table_list_view %}
+                                        {% if row.order %}
+                                            <option value="{{ row.field }}">{{ row.label }}</option>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div id="order_by_value" class="col">
+                                    <label for="order_by_value">Order By Value</label>
+                                    <select onchange="getList(true)" class="form-control" name="order_by_value" id="order_by_value">
+                                        <option value="ASC">ASC</option>
+                                        <option value="DESC">DESC</option>
+                                    </select>
+                                </div>
+                                <div id="show" class="col">
+                                    <div class="form-group">
+                                        <label for="show">Tampil Data</label>
+                                        <select onchange="getList(true)" class="form-control" name="show" id="show">
+                                            <option value="10">10</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div id="halaman" class="col">
+                                    <div class="form-group">
+                                        <label for="halaman">Halaman (Last : <b></b>)</label>
+                                        <input onchange="getList(false)" type="number" class="form-control" id="halaman" name="halaman" min="1" max="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-striped">
+                                <thead><tr>{% for row in config.table_list_view %} <th>{{ row.label }}</th> {% endfor %}</tr></thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="form-user-contain-target" role="tabpanel" aria-labelledby="form-user-contain">
+                    <form onsubmit="return submitForm()" style="display: none;">
+                        <div class="card">
+                            <div class="card-header"><h3></h3></div>
+                            <div class="card-body">
+                                <div class="row row-cols-2">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="name">Name</label>
+                                            <input type="text" class="form-control" id="name" name="name" required>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="email">Email</label>
+                                            <input type="email" class="form-control" id="email" name="email" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="row">
+                                    <div class="btn-group btn-block">
+                                        <input type="hidden" name="id">
+                                        <button type="submit" class="btn btn-outline-success">Submit</button>
+                                        <button onclick="closeForm()" type="reset" class="btn btn-outline-danger">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        // page const diynamic
+            const uri_getlist = "{% url 'trial.list-data' %}"
+            const uri_opendata = "{% url 'trial.open-data' %}"
+            const uri_storedata = "{% url 'trial.store-data' %}"
+            const uri_deletedata = "{% url 'trial.delete-data' %}"
+        // page const diynamic
+    </script>
+    <script type="text/javascript" src="{% static 'frontApp/js/trial.js' %}"></script>
+{% endblock %}
