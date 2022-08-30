@@ -5,21 +5,26 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token }}">
     <title>Login Area</title>
-    <link rel="stylesheet" href="{% static 'frontApp/fontawesome-free/css/all.min.css' %}">
-    <link rel="stylesheet" href="{% static 'frontApp/adminlte-dist/css/adminlte.min.css' %}">
+    <link rel="stylesheet" href="{% static 'fontawesome-free/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'adminlte-dist/css/adminlte.min.css' %}">
 </head>
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
             <a href="#">Selamat Datang Di <b>Aplikasi</b></a>
         </div>
-
         <div class="card">
             <div class="card-body login-card-body">
-                <p class="login-box-msg">Masuk untuk memulai sesi Anda</p>
-                <form method="post" action="{% url 'pageTo.login' %}">
-                    {% csrf_token %}
+                <p class="login-box-msg">
+                    Masuk untuk memulai sesi Anda
+                    <br>
+                    {% if params != None %}
+                    {{ params }}
+                    {% endif %}
+                </p>
+                <form method="post" onsubmit="return submitLogin()">
                     <div class="input-group mb-3">
                         <input type="email" name="email" class="form-control" placeholder="Email">
                         <div class="input-group-append">
@@ -29,7 +34,7 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="password" class="form-control" placeholder="Password">
+                        <input name="password" type="password" class="form-control" placeholder="Password">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
@@ -44,8 +49,18 @@
         </div>
     </div>
 
-    <script type="text/javascript" src="{% static 'frontApp/jquery/jquery.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'frontApp/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'frontApp/adminlte-dist/js/adminlte.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'jquery/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'adminlte-dist/js/adminlte.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'public_asset/js/public.js' %}"></script>
+    <script>
+        $.ajaxSetup({ headers: { 'X-CSRFToken': $('meta[name="csrf-token"]').attr('content') } })
+    </script>
+    <script>
+        // page const diynamic
+            const uri_login = "{% url 'auth.login' %}"
+        // page const diynamic
+    </script>
+    <script type="text/javascript" src="{% static 'frontApp/js/auth.js' %}"></script>
 </body>
 </html>

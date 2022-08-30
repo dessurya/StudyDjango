@@ -6,16 +6,17 @@ httpRequest = (target, method, param) => {
             data: param,
             dataType: 'json',
             success : function(result) { 
-                if (result.response == false) {
-                    alert(result.msg)
-                    loadingScreen(false)
+                if (result.response.login == false) {
+                    // loadingScreen(false)
+                    alert(result.response.msg)
+                    window.location.reload()
                 }else{
                     resolve(result)
                 }
             },
             error : function(err) {
                 console.log(err)
-                loadingScreen(false)
+                // loadingScreen(false)
                 reject(err)
             }
         })

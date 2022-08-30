@@ -2,5 +2,6 @@ from django.urls import path
 from ..views_dir import authView
 
 urlpatterns = [
-    path('login', authView.MyLoginView.as_view(), name='pageTo.login'),
+    path('login', authView.Index, name='auth.login'),
+    path('logout', authView.Logout, name='auth.logout'),
 ]

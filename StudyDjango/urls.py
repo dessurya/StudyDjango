@@ -17,6 +17,6 @@ from django.contrib import admin
 from django.urls import path,include
 
 urlpatterns = [
-    path('super-administrator-area/', admin.site.urls),
+    # path('super-administrator-area/', admin.site.urls), # bawaan django
     path('', include('frontApp.urls'))
 ]
