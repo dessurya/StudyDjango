@@ -10,8 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+import environ
 import os
 from pathlib import Path
+
+env = environ.Env()
+environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,10 +25,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '0)p6twh-1wf68!pl!08qkj5gtr@3f(iho=pn04r%q-^uug12fp'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = []
 
@@ -82,13 +86,23 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     },
+    'servdev': {
+        'ENGINE': env('DB_LSBL_DEV_ENGINE'),
+        'HOST': env('DB_LSBL_DEV_HOST'),
+        'PORT': env('DB_LSBL_DEV_PORT'),
+        'NAME': env('DB_LSBL_DEV_NAME'),
+        'USER': env('DB_LSBL_DEV_USER'),
+        'PASSWORD': env('DB_LSBL_DEV_PASSWORD'),
+        'USE_PURE':True,
+        'OPTIONS': { 'charset': 'utf8'}
+    },
     'servlaraqu': {
-        'ENGINE': 'django.db.backends.mysql',
-        'HOST': 'HOST',
-        'PORT': 'PORT',
-        'NAME': 'NAME',
-        'USER': 'USER',
-        'PASSWORD': 'PASSWORD'
+        'ENGINE': env('DB_LARA_ENGINE'),
+        'HOST': env('DB_LARA_HOST'),
+        'PORT': env('DB_LARA_PORT'),
+        'NAME': env('DB_LARA_NAME'),
+        'USER': env('DB_LARA_USER'),
+        'PASSWORD': env('DB_LARA_PASSWORD')
     },
 }
 
