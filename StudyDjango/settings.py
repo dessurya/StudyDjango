@@ -148,3 +148,14 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = env('EMAIL_HOST')
+EMAIL_USE_TLS = env('EMAIL_USE_TLS')
+EMAIL_PORT = env('EMAIL_PORT')
+EMAIL_HOST_USER = env('EMAIL_HOST_USER') #sender's email-id
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD') #password associated with above email-id
+
+LOGIN_URL=env('LOGIN_URL')
+LOGIN_PATH_NAME=env('LOGIN_PATH_NAME')
+DASHBOARD_PATH_NAME=env('DASHBOARD_PATH_NAME')

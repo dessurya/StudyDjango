@@ -1,5 +1,6 @@
 import json
 from datetime import datetime
+from django.conf import settings
 from django.utils.deprecation import MiddlewareMixin # wajib
 from django.shortcuts import redirect
 from django.http import JsonResponse
@@ -28,9 +29,9 @@ class loginSessionMiddleware(MiddlewareMixin):
         current_uri = request.path
 
         if request.loginSess == None:
-            if current_uri != '/auth/login':
+            if current_uri != settings.LOGIN_URL:
                 if ajaxCek == False:
-                    return redirect('auth.login')
+                    return redirect(settings.LOGIN_PATH_NAME)
                 elif ajaxCek == True:
                     return JsonResponse({
                         'response' : {
@@ -38,23 +39,23 @@ class loginSessionMiddleware(MiddlewareMixin):
                         }
                     })
         else:
-            timoutSess = datetime.now() > datetime.strptime(request.loginSess['timeout'], "%Y-%m-%d %H:%M:%S.%f")
-            if timoutSess == True:
+            timeoutSess = datetime.now() > datetime.strptime(request.loginSess['timeout'], "%Y-%m-%d %H:%M:%S.%f")
+            if timeoutSess == True:
                 try:
                     del request.session['loginSess']
                 except:
                     pass
-                if current_uri != '/auth/login':
+                if current_uri != settings.LOGIN_URL:
                     if ajaxCek == False:
-                        return redirect('auth.login')
+                        return redirect(settings.LOGIN_PATH_NAME)
                     elif ajaxCek == True:
                         return JsonResponse({
                             'response' : {
                                 'login' : False, 'msg' : 'Your session is time out!'
                             }
                         })
-            elif timoutSess == False and current_uri == '/auth/login':
-                return redirect('pageTo.dashboard')
+            elif timeoutSess == False and current_uri == settings.LOGIN_URL:
+                return redirect(settings.DASHBOARD_PATH_NAME)
 
     # def process_exception(self, request, exception):
         # This code is executed if an exception is raised

@@ -7,7 +7,7 @@ httpRequest = (target, method, param) => {
             dataType: 'json',
             success : function(result) { 
                 if (result.response.login == false) {
-                    // loadingScreen(false)
+                    loadingScreen(false)
                     alert(result.response.msg)
                     window.location.reload()
                 }else{
@@ -16,9 +16,13 @@ httpRequest = (target, method, param) => {
             },
             error : function(err) {
                 console.log(err)
-                // loadingScreen(false)
+                loadingScreen(false)
                 reject(err)
             }
         })
     })
+}
+
+loadingScreen = (show) => {
+    console.log(show)
 }
