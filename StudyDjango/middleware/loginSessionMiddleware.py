@@ -25,7 +25,11 @@ class loginSessionMiddleware(MiddlewareMixin):
 
     def process_view(self, request, view_func, view_args, view_kwargs):
         # This code is executed just before the view is called
-        ajaxCek = request.is_ajax()
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            ajaxCek = True
+        else:
+            ajaxCek = False
+        # ajaxCek = request.is_ajax(request) # on django 4 not work
         current_uri = request.path
 
         if request.loginSess == None:

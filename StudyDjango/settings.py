@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_crontab',
     'frontApp',
     'backApp',
 ]
@@ -159,3 +160,7 @@ EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD') #password associated with above
 LOGIN_URL=env('LOGIN_URL')
 LOGIN_PATH_NAME=env('LOGIN_PATH_NAME')
 DASHBOARD_PATH_NAME=env('DASHBOARD_PATH_NAME')
+
+CRONJOBS = [
+    ('*/5 * * * *', 'StudyDjango.cron.example_job.jobs_add_user')
+]
